@@ -1,6 +1,5 @@
-package com.raghu.security.intro.security;
+package com.raghu.method.level.security.security;
 
-import com.raghu.security.intro.security.filter.CustomRequestParameterAuthenticationFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.access.hierarchicalroles.RoleHierarchy;
@@ -11,9 +10,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.access.expression.DefaultWebSecurityExpressionHandler;
-import org.springframework.security.web.authentication.logout.LogoutFilter;
 
-import static com.raghu.security.intro.security.SecurityRoles.*;
+import static com.raghu.method.level.security.security.SecurityRoles.*;
 
 @Configuration
 @EnableWebSecurity
@@ -25,13 +23,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(new CustomRequestParameterAuthenticationFilter(), LogoutFilter.class)
                 .authorizeRequests()
                 .expressionHandler(expressionHandler())
                 .mvcMatchers("/", "/home").permitAll()
-                .mvcMatchers("/employees").hasRole(EMPLOYEES_PAG_VIEW)
-                .mvcMatchers("/departments").hasRole(DEPARTMENTS_PAG_VIEW)
-                .mvcMatchers("/customers").hasRole(CUSTOMERS_PAG_VIEW)
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
@@ -60,11 +54,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 .withUser("william")
                 .password(encoder.encode("william"))
-                .roles(DEPARTMENTS_PAG_VIEW, DEPARTMENTS_READ, DEPARTMENTS_CREATE)
+                .roles(DEPARTMENTS_ADMIN)
                 .and()
                 .withUser("lucas")
                 .password(encoder.encode("lucas"))
-                .roles(CUSTOMERS_PAG_VIEW, CUSTOMERS_READ)
+                .roles(CUSTOMERS_ADMIN)
                 .and()
                 .withUser("tom")
                 .password(encoder.encode("tom"))

@@ -1,3 +1,5 @@
 rootProject.name = 'RewiringSpringSecurity'
 include 'IntroAuthenAutho'
+include 'FilterChains'
+include 'MethodLevelSecurity'
 
